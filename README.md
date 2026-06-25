@@ -69,7 +69,7 @@ Play multiple rounds of classic Rock-Paper-Scissors at once.
 **`POST`** `/api/v1/game/playmultiple`
 ```json
 {
-  "actions": ["rock", "paper", "fire"]
+  "actions": ["rock", "paper", "scissors"]
 }
 ```
 
