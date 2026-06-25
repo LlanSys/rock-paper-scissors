@@ -11,7 +11,7 @@ A modernized .NET Web API built with Clean Architecture, CQRS (MediatR), and API
 
 ## Features
 - **Clean Architecture:** Strict boundary enforcement using `NetArchTest`. The Domain layer has zero dependencies on Features or Infrastructure.
-- **Dynamic Phrasing:** The game engine uses configurable `GameOptions` sentence templates with placeholders (`{PlayerMove}`, `{ComputerMove}`, `{Verb}`), making the phrasing entirely customizable via `appsettings.json` without any code changes.
+- **Dynamic Phrasing:** The game engine uses configurable GameOptions prefix/suffix templates (e.g., WinnerTemplate, LoserTemplate, DrawTemplate), making the outcome phrasing customizable via appsettings.json.
 - **CQRS Pattern:** Requests are cleanly separated and handled using MediatR.
 - **API Versioning:** Fully supports multiple versions of the game endpoints (`v1` and `v2`).
 
