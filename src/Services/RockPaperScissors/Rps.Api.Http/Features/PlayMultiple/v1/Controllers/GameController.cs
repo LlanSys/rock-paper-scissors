@@ -32,8 +32,10 @@ public class GameController : ControllerBase
                     continue;
                 }
 
-                // Generates a new random move for each item in the array, as requested.
-                string computerAction = Random.Shared.GetItems(_actions, 1)[0];
+                // Generates a new random move for each item in the array, as requested (zero-allocation implementation).
+                //string computerAction = Random.Shared.GetItems(_actions, 1)[0];
+
+                string computerAction = _actions[Random.Shared.Next(_actions.Length)];
 
                 if (computerAction == playerAction)
                 {
