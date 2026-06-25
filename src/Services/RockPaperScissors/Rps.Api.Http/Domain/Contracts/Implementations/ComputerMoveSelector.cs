@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Interfaces;
 
-namespace Rps.Api.Http.Features.PlaySingle.v2.Contracts.Implementations;
+using Rps.Api.Http.Domain.Contracts.Interfaces;
+using Rps.Api.Http.Domain.Enums.v2;
+
+namespace Rps.Api.Http.Domain.Contracts.Implementations;
 
 public class ComputerMoveSelector : IComputerMoveSelector
 {

@@ -1,10 +1,10 @@
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Interfaces;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Implementations;
 using Rps.Api.Http.Shared.Options;
 using System.Reflection;
+using Rps.Api.Http.Domain.Contracts.Interfaces;
+using Rps.Api.Http.Domain.Contracts.Implementations;
 
 namespace Rps.Api.Http.Shared.Extensions;
 

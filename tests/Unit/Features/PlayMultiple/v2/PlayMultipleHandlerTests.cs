@@ -1,7 +1,5 @@
 using FluentAssertions;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Interfaces;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Implementations;
 using Rps.Api.Http.Features.PlayMultiple.v2.Dtos;
 using Rps.Api.Http.Features.PlaySingle.v2.Dtos;
 using Rps.Api.Http.Features.PlayMultiple.v2.Hanlders.CommandHandlers;
@@ -12,6 +10,8 @@ using Xunit;
 
 using Microsoft.Extensions.Options;
 using Rps.Api.Http.Shared.Options;
+using Rps.Api.Http.Domain.Contracts.Interfaces;
+using Rps.Api.Http.Domain.Contracts.Implementations;
 
 namespace Rps.Api.UnitTests.Features.PlayMultiple.v2;
 

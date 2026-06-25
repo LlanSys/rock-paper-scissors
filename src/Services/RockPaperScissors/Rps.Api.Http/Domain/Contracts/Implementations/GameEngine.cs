@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+
 using Microsoft.Extensions.Options;
+
+using Rps.Api.Http.Domain.Contracts.Interfaces;
 using Rps.Api.Http.Domain.Enums.Common;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Interfaces;
 using Rps.Api.Http.Shared.Dtos;
 using Rps.Api.Http.Shared.Options;
 
-namespace Rps.Api.Http.Features.PlaySingle.v2.Contracts.Implementations;
+namespace Rps.Api.Http.Domain.Contracts.Implementations;
 
 public class GameEngine(IOptions<GameOptions> options) : IGameEngine
 {
