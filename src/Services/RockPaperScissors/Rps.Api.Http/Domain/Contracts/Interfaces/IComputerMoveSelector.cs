@@ -6,5 +6,5 @@ namespace Rps.Api.Http.Domain.Contracts.Interfaces;
 
 public interface IComputerMoveSelector
 {
-    Task<Move> SelectMoveAsync();
+    ValueTask<Move> SelectMoveAsync();
 }

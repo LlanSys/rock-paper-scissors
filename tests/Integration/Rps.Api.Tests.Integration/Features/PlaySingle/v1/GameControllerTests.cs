@@ -24,7 +24,7 @@ public class GameControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new PlayRequest { Action = "rock" };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/v1/game/play", request);
+        var response = await _client.PostAsJsonAsync("/api/v1/game/playsingle", request);
 
         // Assert
         if (response.StatusCode != System.Net.HttpStatusCode.OK)

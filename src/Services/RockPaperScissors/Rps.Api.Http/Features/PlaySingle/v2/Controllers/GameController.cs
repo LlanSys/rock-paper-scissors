@@ -14,7 +14,7 @@ namespace Rps.Api.Http.Features.PlaySingle.v2.Controllers;
 [ApiController]
 public class GameController(ISender sender) : BaseController
 {
-    [HttpPost("play-single")]
+    [HttpPost("play")]
     public async Task<ActionResult<AppResponse<PlayResponse>>> Play([FromBody] PlayRequest request)
     {
         var result = await sender.Send(new PlaySingleCommand(request));

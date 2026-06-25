@@ -1,4 +1,4 @@
-namespace Rps.Api.Http.Features.PlaySingle.v2.Dtos;
+namespace Rps.Api.Http.Shared.Dtos;
 
 public sealed record PlayResponse(
     string PlayerMove,

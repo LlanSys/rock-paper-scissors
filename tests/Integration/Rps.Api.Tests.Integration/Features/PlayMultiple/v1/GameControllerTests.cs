@@ -24,7 +24,7 @@ public class GameControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new MultiplePlayRequest { Actions = ["rock", "paper"] };
 
         // Act
-        var response = await _client.PostAsJsonAsync("/v1/game/playmultiple", request);
+        var response = await _client.PostAsJsonAsync("/api/v1/game/playmultiple", request);
 
         // Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);

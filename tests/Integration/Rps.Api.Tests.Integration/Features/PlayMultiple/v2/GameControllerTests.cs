@@ -27,7 +27,7 @@ public class GameControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new PlayMultipleRequest(["fire", "water"]);
 
         // Act
-        var response = await _client.PostAsJsonAsync("/v2/game/playmultiple", request);
+        var response = await _client.PostAsJsonAsync("/api/v2/game/playmultiple", request);
 
         // Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
@@ -47,7 +47,7 @@ public class GameControllerTests : IClassFixture<WebApplicationFactory<Program>>
         var request = new PlayMultipleRequest(["fire", "rock"]);
 
         // Act
-        var response = await _client.PostAsJsonAsync("/v2/game/playmultiple", request);
+        var response = await _client.PostAsJsonAsync("/api/v2/game/playmultiple", request);
 
         // Assert
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.BadRequest);

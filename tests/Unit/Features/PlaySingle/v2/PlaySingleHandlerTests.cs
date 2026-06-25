@@ -45,13 +45,12 @@ public class StubComputerMoveSelector : IComputerMoveSelector
     public Move NextMove { get; set; } = Move.Fire;
     public Queue<Move> MoveSequence { get; } = new();
 
-    public async Task<Move> SelectMoveAsync()
+    public ValueTask<Move> SelectMoveAsync()
     {
-        await Task.CompletedTask;
         if (MoveSequence.Count > 0)
         {
-            return MoveSequence.Dequeue();
+            return ValueTask.FromResult(MoveSequence.Dequeue());
         }
-        return NextMove;
+        return ValueTask.FromResult(NextMove);
     }
 }
