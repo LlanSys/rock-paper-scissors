@@ -1,37 +1,48 @@
-# Rock Paper Scissors API
+# Rock Paper Scissors API (Wu Xing Edition)
 
-This repository contains a game that allows the caller to play rock paper scissors against the API. An example cURL request would be:
+A modernized .NET Web API built with Clean Architecture, CQRS (MediatR), and API Versioning. This repository contains the solution to the 5-way elemental variant of Rock-Paper-Scissors featuring **Fire, Water, Wood, Metal, and Earth**.
 
+## Rules
+- Fire burns Wood and melts Metal
+- Wood displaces Earth and absorbs Water
+- Water extinguishes Fire and rusts Metal
+- Earth extinguishes Fire and absorbs Water
+- Metal cuts Wood and displaces Earth
+
+## Features
+- **Clean Architecture:** Strict boundary enforcement using `NetArchTest`. The Domain layer has zero dependencies on Features or Infrastructure.
+- **Dynamic Phrasing:** The game engine uses configurable `GameOptions` sentence templates with placeholders (`{PlayerMove}`, `{ComputerMove}`, `{Verb}`), making the phrasing entirely customizable via `appsettings.json` without any code changes.
+- **CQRS Pattern:** Requests are cleanly separated and handled using MediatR.
+- **API Versioning:** Fully supports multiple versions of the game endpoints (`v1` and `v2`).
+
+## API Endpoints
+
+The API provides interactive API documentation using Scalar.
+
+![Scalar Home](docs/images/scalar-home.png)
+
+### 1. Play Single (`v2`)
+Play a single round of the elemental Rock-Paper-Scissors game against the computer.
+
+**`POST`** `/api/v2/game/playsingle`
+```json
+{
+  "action": "metal"
+}
 ```
-curl --request POST \
-  --url https://localhost:7114/game/play \
-  --header 'Content-Type: application/json' \
-  --data '{
-	"action": "rock"
-}'
+
+**Example Response:**
+![Play Single Response](docs/images/scalar-v2-play-single.png)
+
+### 2. Play Multiple (`v2`)
+Play multiple rounds at once by providing a list of actions.
+
+**`POST`** `/api/v2/game/playmultiple`
+```json
+{
+  "actions": ["fire", "earth"]
+}
 ```
 
-And the API responds with a text response such as:
-
-```
-I play scissors. Winner!
-```
-
-# Task 1 - Code Review
-
-Download a copy of the code in this repository and perform a code review. Write your review in a document and include it with Task 2 in a private repository.
-
-# Task 2 -Refactor
-
-Refactor the code so that it supports a 5-way version of rock paper scissors, featuring Fire, Water, Wood, Metal and Earth, as shown in the below rules. To submit your solution, do not submit any PRs, instead invite us to view your own private repository.
-
-- Fire burns Wood
-- Fire melts Metal
-- Wood displaces Earth
-- Wood absorbs Water
-- Water extinguishes Fire
-- Water rusts Metal
-- Earth extinguishes Fire
-- Earth absorbs Water
-- Metal cuts Wood
-- Metal displaces Earth
+**Example Response:**
+![Play Multiple Response](docs/images/scalar-v2-play-multiple.png)
