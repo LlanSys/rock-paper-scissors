@@ -13,22 +13,14 @@ public class ArchitectureTests
     {
         var result = Types.InAssembly(typeof(Move).Assembly)
             .That()
-            .ResideInNamespace("Rps.Api.Http.Features.PlaySingle.v1.Controllers")
-            .Or()
-            .ResideInNamespace("Rps.Api.Http.Features.PlayMultiple.v1.Controllers")
-            .Or()
-            .ResideInNamespace("Rps.Api.Http.Features.PlaySingle.v1.Dtos")
-            .Or()
-            .ResideInNamespace("Rps.Api.Http.Features.PlayMultiple.v1.Dtos")
+            .ResideInNamespaceMatching(@"Rps\.Api\.Http\.Features\..*\.v1")
             .ShouldNot()
             .HaveDependencyOnAny(
-                "Rps.Api.Http.Features.PlaySingle.v2.Controllers",
-                "Rps.Api.Http.Features.PlayMultiple.v2.Controllers",
                 "Rps.Api.Http.Features.PlaySingle.v2",
                 "Rps.Api.Http.Features.PlayMultiple.v2")
             .GetResult();
 
-        Assert.True(result.IsSuccessful, "V1 logic is leaking dependencies into V2!");
+        Assert.True(result.IsSuccessful, $"V1 logic is leaking dependencies into V2! Failing types: {string.Join(", ", result.FailingTypeNames ?? [])}");
     }
 
     [Fact]
@@ -41,7 +33,7 @@ public class ArchitectureTests
             .HaveDependencyOn("Rps.Api.Http.Features")
             .GetResult();
 
-        Assert.True(result.IsSuccessful, "Domain logic must not depend on Features!");
+        Assert.True(result.IsSuccessful, $"Domain logic must not depend on Features! Failing types: {string.Join(", ", result.FailingTypeNames ?? [])}");
     }
 
     [Fact]
@@ -49,14 +41,12 @@ public class ArchitectureTests
     {
         var result = Types.InAssembly(typeof(Move).Assembly)
             .That()
-            .ResideInNamespace("Rps.Api.Http.Features.PlaySingle.v1")
-            .Or()
-            .ResideInNamespace("Rps.Api.Http.Features.PlayMultiple.v1")
+            .ResideInNamespaceMatching(@"Rps\.Api\.Http\.Features\..*\.v1")
             .ShouldNot()
             .HaveDependencyOn("MediatR")
             .GetResult();
 
-        Assert.True(result.IsSuccessful, "V1 features should not depend on MediatR!");
+        Assert.True(result.IsSuccessful, $"V1 features should not depend on MediatR! Failing types: {string.Join(", ", result.FailingTypeNames ?? [])}");
     }
 
     [Fact]
@@ -69,6 +59,6 @@ public class ArchitectureTests
             .HaveDependencyOn("Microsoft.AspNetCore.Mvc")
             .GetResult();
 
-        Assert.True(result.IsSuccessful, "Domain.Contracts must not depend on Microsoft.AspNetCore.Mvc!");
+        Assert.True(result.IsSuccessful, $"Domain.Contracts must not depend on Microsoft.AspNetCore.Mvc! Failing types: {string.Join(", ", result.FailingTypeNames ?? [])}");
     }
 }
