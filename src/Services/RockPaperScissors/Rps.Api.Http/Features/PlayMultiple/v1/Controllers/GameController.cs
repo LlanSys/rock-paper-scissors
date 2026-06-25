@@ -24,6 +24,8 @@ public class GameController : ControllerBase
         {
             foreach (string rawPlayer in request.Actions)
             {
+                ArgumentException.ThrowIfNullOrEmpty(rawPlayer, nameof(rawPlayer));
+
                 string playerAction = rawPlayer?.ToLowerInvariant() ?? string.Empty;
 
                 if (!_actions.Contains(playerAction))
@@ -33,7 +35,10 @@ public class GameController : ControllerBase
                 }
 
                 // Generates a new random move for each item in the array, as requested.
-                string computerAction = Random.Shared.GetItems(_actions, 1)[0];
+                //string computerAction = Random.Shared.GetItems(_actions, 1)[0];
+
+                // To achieve a truly zero - allocation implementation
+                string computerAction = _actions[Random.Shared.Next(_actions.Length)];
 
                 if (computerAction == playerAction)
                 {
