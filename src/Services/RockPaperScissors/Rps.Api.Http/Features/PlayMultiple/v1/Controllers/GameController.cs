@@ -12,55 +12,57 @@ namespace Rps.Api.Http.Features.PlayMultiple.v1.Controllers;
 [ApiController]
 public class GameController : ControllerBase
 {
-    private readonly List<string> actions = [];
+    private static readonly string[] _actions = ["rock", "paper", "scissors"];
 
     [HttpPost]
     [Route("playmultiple")]
     public string[] PlayMultiple([FromBody] MultiplePlayRequest request)
     {
-        actions.Add("rock");
-        actions.Add("paper");
-        actions.Add("scissors");
-
-        string action = actions.OrderBy(a => new Random().Next()).First();
-
         List<string> results = [];
         
         if (request?.Actions != null)
         {
-            foreach (string player in request.Actions)
+            foreach (string rawPlayer in request.Actions)
             {
-                if (action == player)
+                string playerAction = rawPlayer?.ToLowerInvariant() ?? string.Empty;
+
+                if (!_actions.Contains(playerAction))
                 {
-                    results.Add("I play " + action + ". It's a draw!");
+                    results.Add("You have to play rock, paper or scissors");
+                    continue;
                 }
 
-                if (action == "rock" && player == "paper")
-                {
-                    results.Add("I play " + action + ". Winner!");
-                }
-                if (action == "rock" && player == "scissors")
-                {
-                    results.Add("I play " + action + ". Loser!");
-                }
-                if (action == "paper" && player == "scissors")
-                {
-                    results.Add("I play " + action + ". Winner!");
-                }
-                if (action == "paper" && player == "rock")
-                {
-                    results.Add("I play " + action + ". Loser!");
-                }
-                if (action == "scissors" && player == "paper")
-                {
-                    results.Add("I play " + action + ". Loser!");
-                }
-                if (action == "scissors" && player == "rock")
-                {
-                    results.Add("I play " + action + ". Winner!");
-                }
+                // Generates a new random move for each item in the array, as requested.
+                string computerAction = Random.Shared.GetItems(_actions, 1)[0];
 
-                results.Add("You have to play rock, paper or scissors");
+                if (computerAction == playerAction)
+                {
+                    results.Add("I play " + computerAction + ". It's a draw!");
+                }
+                else if (computerAction == "rock" && playerAction == "paper")
+                {
+                    results.Add("I play " + computerAction + ". Winner!");
+                }
+                else if (computerAction == "rock" && playerAction == "scissors")
+                {
+                    results.Add("I play " + computerAction + ". Loser!");
+                }
+                else if (computerAction == "paper" && playerAction == "scissors")
+                {
+                    results.Add("I play " + computerAction + ". Winner!");
+                }
+                else if (computerAction == "paper" && playerAction == "rock")
+                {
+                    results.Add("I play " + computerAction + ". Loser!");
+                }
+                else if (computerAction == "scissors" && playerAction == "paper")
+                {
+                    results.Add("I play " + computerAction + ". Loser!");
+                }
+                else if (computerAction == "scissors" && playerAction == "rock")
+                {
+                    results.Add("I play " + computerAction + ". Winner!");
+                }
             }
         }
 

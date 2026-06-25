@@ -30,6 +30,6 @@ public class GameControllerTests : IClassFixture<WebApplicationFactory<Program>>
         response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
         var content = await response.Content.ReadFromJsonAsync<string[]>();
         content.Should().NotBeNull();
-        content.Should().HaveCount(4);
+        content.Should().HaveCount(2);
     }
 }
