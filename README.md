@@ -75,3 +75,24 @@ Play multiple rounds of classic Rock-Paper-Scissors at once.
 
 **Example Response:**
 ![Play Multiple v1 Response](docs/images/scalar-v1-play-multiple.png)
+
+## Getting Started
+
+### How to Run
+Ensure you have the .NET 10 SDK installed. You can run the API from the command line:
+
+```bash
+dotnet run --project src/Services/RockPaperScissors/Rps.Api.Http/Rps.Api.Http.csproj
+```
+
+Once running, navigate to `http://localhost:<port>/scalar/v2` in your browser to view and interact with the API endpoints.
+
+### How to Test
+The solution includes Unit Tests, Integration Tests, and Architecture Enforcement tests. Run the entire test suite using:
+
+```bash
+dotnet test
+```
+
+### Reviewing the Solution
+If you are reviewing this codebase, we highly recommend reading the comprehensive [Refactoring Document](docs/REFACTORING.md) which details the architectural shifts, performance improvements, and bug fixes made during the modernization process from the legacy V1 API to the clean architecture V2 API.
