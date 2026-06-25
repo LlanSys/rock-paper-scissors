@@ -46,3 +46,32 @@ Play multiple rounds at once by providing a list of actions.
 
 **Example Response:**
 ![Play Multiple Response](docs/images/scalar-v2-play-multiple.png)
+
+### 3. Play Single (`v1` Legacy)
+Play a single round of the classic Rock-Paper-Scissors game against the computer using the backward-compatible v1 API.
+
+**`POST`** `/api/v1/game/playsingle`
+```json
+{
+  "action": "rock"
+}
+```
+
+**Example Response:**
+![Play Single v1 Response](docs/images/scalar-v1-play-single.png)
+
+**Invalid Input Example:**
+![Play Single v1 Invalid Input](docs/images/scalar-v1-play-single-invalid-input.png)
+
+### 4. Play Multiple (`v1` Legacy)
+Play multiple rounds of classic Rock-Paper-Scissors at once.
+
+**`POST`** `/api/v1/game/playmultiple`
+```json
+{
+  "actions": ["rock", "paper", "fire"]
+}
+```
+
+**Example Response:**
+![Play Multiple v1 Response](docs/images/scalar-v1-play-multiple.png)
