@@ -1,10 +1,12 @@
 using MediatR;
+
+using Rps.Api.Http.Domain.Contracts.Interfaces;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Interfaces;
 using Rps.Api.Http.Features.PlaySingle.v2.Dtos;
-using Rps.Api.Http.Features.PlaySingle.v2.Mappings;
 using Rps.Api.Http.Shared.Dtos;
 using Rps.Api.Http.Shared.Extensions;
+using Rps.Api.Http.Shared.Mappings;
+
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,11 +1,14 @@
 using FluentAssertions;
+
 using Microsoft.Extensions.Options;
+
+using Rps.Api.Http.Domain.Contracts.Implementations;
 using Rps.Api.Http.Domain.Enums.Common;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Implementations;
-using Rps.Api.Http.Features.PlaySingle.v2.Contracts.Interfaces;
 using Rps.Api.Http.Shared.Options;
+
 using System.Threading.Tasks;
+
 using Xunit;
 
 namespace Rps.Api.UnitTests.Features.PlaySingle.v2;

@@ -19,11 +19,11 @@ jobs:
         dotnet-version: '10.0.x'
 
     - name: Restore dependencies
-      run: dotnet restore Rps.Api/Rps.Api.sln
+      run: dotnet restore Rps.Api.sln
 
       # Disable global nuget source warning if not needed, otherwise build
     - name: Build
-      run: dotnet build Rps.Api/Rps.Api.sln --configuration Release --no-restore
+      run: dotnet build Rps.Api.sln --configuration Release --no-restore
 
     - name: Test
-      run: dotnet test Rps.Api/Rps.Api.sln --configuration Release --no-build --verbosity normal
+      run: dotnet test Rps.Api.sln --configuration Release --no-build --verbosity normal
