@@ -30,6 +30,14 @@ This document highlights the major refactoring and architectural improvements ma
 **What:** Replaced dynamic allocations with efficient constructs.
 **Why:** In the legacy code, lists and `Random` instances were reallocated heavily. We refactored the V1 and V2 logic to use `static readonly` arrays, `Random.Shared`, and pattern matching. We avoided unnecessary string allocations where possible, drastically reducing memory pressure during high traffic.
 
-## 8. Comprehensive Testing
+## 8. V1 Legacy Bug Fixes & Refactoring
+**What:** Addressed critical logic flaws in the original controllers while intentionally maintaining their legacy architecture.
+**Why:** The V1 API needed to remain fully backward-compatible and self-contained within controllers without introducing CQRS. We specifically:
+- Fixed a bug in `PlayMultiple` where the computer generated a single random move and used it against the player's entire array. It now generates an independent random move per item.
+- Fixed the "Double Appending" bug where a fallback `"You have to play rock, paper or scissors"` message was incorrectly appended to *every* valid game result.
+- Added proper case-insensitivity (`ToLowerInvariant()`) to the V1 inputs.
+- Preserved the exact JSON response contract so legacy clients are unaffected.
+
+## 9. Comprehensive Testing
 **What:** Added rigorous Unit Tests and Integration Tests.
 **Why:** The application previously lacked sufficient coverage. We added unit tests with `Moq` for isolated component testing and `WebApplicationFactory` for full end-to-end integration tests that verify HTTP status codes, routing, and JSON serialization.
