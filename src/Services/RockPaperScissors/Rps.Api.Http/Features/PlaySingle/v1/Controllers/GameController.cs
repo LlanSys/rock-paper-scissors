@@ -12,46 +12,49 @@ namespace Rps.Api.Http.Features.PlaySingle.v1.Controllers;
 [ApiController]
 public class GameController : ControllerBase
 {
-    private readonly List<string> actions = new List<string>();
+    private static readonly string[] _actions = ["rock", "paper", "scissors"];
 
     [HttpPost]
     [Route("playsingle")]
     public string PlaySingle([FromBody] PlayRequest request)
     {
-        actions.Add("rock");
-        actions.Add("paper");
-        actions.Add("scissors");
+        string playerAction = request.Action?.ToLowerInvariant() ?? string.Empty;
 
-        string action = actions.OrderBy(a => new Random().Next()).First();
-
-        if (action == request.Action)
+        if (!_actions.Contains(playerAction))
         {
-            return "I play " + action + ". It's a draw!";
+            return "You have to play rock, paper or scissors";
         }
 
-        if (action == "rock" && request.Action == "paper")
+        string computerAction = Random.Shared.GetItems(_actions, 1)[0];
+
+        if (computerAction == playerAction)
         {
-            return "I play " + action + ". Winner!";
+            return "I play " + computerAction + ". It's a draw!";
         }
-        if (action == "rock" && request.Action == "scissors")
+
+        if (computerAction == "rock" && playerAction == "paper")
         {
-            return "I play " + action + ". Loser!";
+            return "I play " + computerAction + ". Winner!";
         }
-        if (action == "paper" && request.Action == "scissors")
+        else if (computerAction == "rock" && playerAction == "scissors")
         {
-            return "I play " + action + ". Winner!";
+            return "I play " + computerAction + ". Loser!";
         }
-        if (action == "paper" && request.Action == "rock")
+        else if (computerAction == "paper" && playerAction == "scissors")
         {
-            return "I play " + action + ". Loser!";
+            return "I play " + computerAction + ". Winner!";
         }
-        if (action == "scissors" && request.Action == "paper")
+        else if (computerAction == "paper" && playerAction == "rock")
         {
-            return "I play " + action + ". Loser!";
+            return "I play " + computerAction + ". Loser!";
         }
-        if (action == "scissors" && request.Action == "rock")
+        else if (computerAction == "scissors" && playerAction == "paper")
         {
-            return "I play " + action + ". Winner!";
+            return "I play " + computerAction + ". Loser!";
+        }
+        else if (computerAction == "scissors" && playerAction == "rock")
+        {
+            return "I play " + computerAction + ". Winner!";
         }
 
         return "You have to play rock, paper or scissors";
