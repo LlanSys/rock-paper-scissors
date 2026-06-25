@@ -75,3 +75,73 @@ Play multiple rounds of classic Rock-Paper-Scissors at once.
 
 **Example Response:**
 ![Play Multiple v1 Response](docs/images/scalar-v1-play-multiple.png)
+
+## Getting Started
+
+### 1. Preparing the Environment
+This project uses **MediatR** configured with a required license key parameter. Before running the application, you must set the `MediatR:LicenseKey` to `Community` using .NET User Secrets to keep the key out of source control.
+
+**Using the Terminal:**
+Navigate to the API project directory and initialize the secrets:
+```bash
+cd src/Services/RockPaperScissors/Rps.Api.Http
+dotnet user-secrets init
+dotnet user-secrets set "MediatR:LicenseKey" "Community"
+```
+
+**Using Visual Studio:**
+1. Right-click the `Rps.Api.Http` project in the Solution Explorer.
+2. Select **Manage User Secrets**.
+3. Add the following JSON:
+   ```json
+   {
+     "MediatR": {
+       "LicenseKey": "Community"
+     }
+   }
+   ```
+
+### 2. Cloning the Repository
+Clone the repository to your local machine:
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
+
+### 3. Running the Application
+You can launch the API server from the terminal or using your preferred IDE.
+
+**Using the Terminal:**
+From the root of the cloned repository, run:
+```bash
+dotnet run --project src/Services/RockPaperScissors/Rps.Api.Http/Rps.Api.Http.csproj
+```
+
+**Using Visual Studio or Rider:**
+1. Open the solution file.
+2. Set `Rps.Api.Http` as the Startup Project.
+3. Press `F5` (or click Run/Start) to build and launch the application.
+
+### 4. Accessing the Browser Documentation
+Once the application is running, the interactive API documentation (Scalar) will be available in your browser. 
+Depending on the port assigned to your environment, navigate to:
+- `http://localhost:<port>/scalar/v2` (for V2 endpoints)
+- `http://localhost:<port>/scalar/v1` (for V1 endpoints)
+
+### 5. How to Test
+The solution includes a comprehensive suite of Unit Tests, Integration Tests, and Architecture Enforcement tests.
+
+**Using the Terminal:**
+From the root of the repository, execute:
+```bash
+dotnet test
+```
+
+**Using Visual Studio or Rider:**
+1. Open the **Test Explorer** window.
+2. Click **Run All Tests** to execute the entire suite.
+
+---
+
+### Reviewing the Solution
+If you are reviewing this codebase, we highly recommend reading the comprehensive [Refactoring Document](docs/REFACTORING.md). It details the architectural shifts, performance improvements, and bug fixes made during the modernization process from the legacy V1 API to the clean architecture V2 API.
