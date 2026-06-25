@@ -21,19 +21,33 @@ public class GameEngine(IOptions<GameOptions> options) : IGameEngine
 
         if (playerMove == computerMove)
         {
-            return new GameResult(GameOutcome.Draw, $"I play {computerMove}. {_options.DrawTemplate}");
+            return new GameResult(GameOutcome.Draw, FormatTemplate(_options.DrawTemplate, playerMove, computerMove, null));
         }
 
         if (Beats(playerMove, computerMove))
         {
             var verb = GetVerb(playerMove, computerMove);
-            return new GameResult(GameOutcome.Winner, $"I play {computerMove}. {_options.WinnerTemplate} {playerMove} {verb} {computerMove}.");
+            return new GameResult(GameOutcome.Winner, FormatTemplate(_options.WinnerTemplate, playerMove, computerMove, verb));
         }
         else
         {
             var verb = GetVerb(computerMove, playerMove);
-            return new GameResult(GameOutcome.Loser, $"I play {computerMove}. {_options.LoserTemplate} {computerMove} {verb} {playerMove}.");
+            return new GameResult(GameOutcome.Loser, FormatTemplate(_options.LoserTemplate, playerMove, computerMove, verb));
         }
+    }
+
+    private static string FormatTemplate(string template, Move playerMove, Move computerMove, string? verb)
+    {
+        var result = template
+            .Replace("{PlayerMove}", playerMove.ToString(), StringComparison.OrdinalIgnoreCase)
+            .Replace("{ComputerMove}", computerMove.ToString(), StringComparison.OrdinalIgnoreCase);
+
+        if (!string.IsNullOrEmpty(verb))
+        {
+            result = result.Replace("{Verb}", verb, StringComparison.OrdinalIgnoreCase);
+        }
+
+        return result;
     }
 
     private static bool Beats(Move attacker, Move defender) => (attacker, defender) switch
