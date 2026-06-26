@@ -3,7 +3,7 @@
 This document highlights the major refactoring and architectural improvements made to the Rock Paper Scissors API. The goal was to modernize the codebase, improve testability, enhance maintainability, and fix existing bugs—all while preserving backward compatibility for existing consumers.
 
 ## 1. API Versioning
-**What:** Introduced `Asp.Versioning.Mvc` to properly version the API endpoints. 
+**What:** Introduced `Asp.Versioning.Mvc` to properly version the API endpoints.  
 **Why:** The original API (now v1) had significant architectural flaws and bugs, but we needed to preserve its exact request/response contract for legacy clients. Versioning allowed us to introduce a completely redesigned, clean v2 API (`/api/v2/game/...`) alongside the fixed v1 API (`/api/v1/game/...`).
 
 ## 2. Clean Architecture & CQRS (v2)
