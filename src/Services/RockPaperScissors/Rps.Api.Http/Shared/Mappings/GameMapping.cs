@@ -1,5 +1,6 @@
 using System;
 
+using Rps.Api.Http.Domain.Models;
 using Rps.Api.Http.Domain.Enums.v2;
 using Rps.Api.Http.Shared.Dtos;
 using Rps.Api.Http.Shared.Extensions;

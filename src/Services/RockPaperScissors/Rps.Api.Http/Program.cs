@@ -45,9 +45,6 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         options.JsonSerializerOptions.WriteIndented = builder.Environment.IsDevelopment();
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-
-        // Add error handling for problematic types
         options.JsonSerializerOptions.IgnoreReadOnlyProperties = false;
         options.JsonSerializerOptions.IncludeFields = false;
     });
@@ -116,9 +113,10 @@ builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseExceptionHandler();
+
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 

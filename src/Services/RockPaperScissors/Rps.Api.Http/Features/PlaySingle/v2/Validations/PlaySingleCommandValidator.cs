@@ -1,6 +1,6 @@
 using FluentValidation;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Hanlders.CommandHandlers;
+using Rps.Api.Http.Features.PlaySingle.v2.Handlers.CommandHandlers;
 using Rps.Api.Http.Shared.Extensions;
 
 namespace Rps.Api.Http.Features.PlaySingle.v2.Validations;

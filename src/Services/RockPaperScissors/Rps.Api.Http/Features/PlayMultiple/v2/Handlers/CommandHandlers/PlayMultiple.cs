@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rps.Api.Http.Features.PlayMultiple.v2.Hanlders.CommandHandlers;
+namespace Rps.Api.Http.Features.PlayMultiple.v2.Handlers.CommandHandlers;
 
 public sealed record PlayMultipleCommand(PlayMultipleRequest PlayMultipleRequest) : IRequest<AppResponse<IReadOnlyList<PlayResponse>>>;
 

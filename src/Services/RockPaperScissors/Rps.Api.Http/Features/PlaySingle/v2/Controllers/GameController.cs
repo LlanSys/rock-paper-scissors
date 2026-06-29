@@ -2,7 +2,7 @@ using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Rps.Api.Http.Features.PlaySingle.v2.Dtos;
-using Rps.Api.Http.Features.PlaySingle.v2.Hanlders.CommandHandlers;
+using Rps.Api.Http.Features.PlaySingle.v2.Handlers.CommandHandlers;
 using Rps.Api.Http.Shared.Controllers;
 using Rps.Api.Http.Shared.Dtos;
 using System.Threading.Tasks;

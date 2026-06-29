@@ -1,12 +1,11 @@
 using System;
-using System.Threading.Tasks;
 
 using Microsoft.Extensions.Options;
 
 using Rps.Api.Http.Domain.Contracts.Interfaces;
 using Rps.Api.Http.Domain.Enums.Common;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Shared.Dtos;
+using Rps.Api.Http.Domain.Models;
 using Rps.Api.Http.Shared.Options;
 
 namespace Rps.Api.Http.Domain.Contracts.Implementations;
@@ -15,24 +14,23 @@ public class GameEngine(IOptions<GameOptions> options) : IGameEngine
 {
     private readonly GameOptions _options = options.Value;
 
-    public async Task<GameResult> EvaluateAsync(Move playerMove, Move computerMove)
+    public Task<GameResult> EvaluateAsync(Move playerMove, Move computerMove)
     {
-        await Task.Yield();
 
         if (playerMove == computerMove)
         {
-            return new GameResult(GameOutcome.Draw, FormatTemplate(_options.DrawTemplate, playerMove, computerMove, null));
+            return Task.FromResult(new GameResult(GameOutcome.Draw, FormatTemplate(_options.DrawTemplate, playerMove, computerMove, null)));
         }
 
         if (Beats(playerMove, computerMove))
         {
             var verb = GetVerb(playerMove, computerMove);
-            return new GameResult(GameOutcome.Winner, FormatTemplate(_options.WinnerTemplate, playerMove, computerMove, verb));
+            return Task.FromResult(new GameResult(GameOutcome.Winner, FormatTemplate(_options.WinnerTemplate, playerMove, computerMove, verb)));
         }
         else
         {
             var verb = GetVerb(computerMove, playerMove);
-            return new GameResult(GameOutcome.Loser, FormatTemplate(_options.LoserTemplate, playerMove, computerMove, verb));
+            return Task.FromResult(new GameResult(GameOutcome.Loser, FormatTemplate(_options.LoserTemplate, playerMove, computerMove, verb)));
         }
     }
 

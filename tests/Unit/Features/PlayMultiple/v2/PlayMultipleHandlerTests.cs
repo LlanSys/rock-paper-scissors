@@ -1,17 +1,19 @@
 using FluentAssertions;
-using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlayMultiple.v2.Dtos;
-using Rps.Api.Http.Features.PlaySingle.v2.Dtos;
-using Rps.Api.Http.Features.PlayMultiple.v2.Hanlders.CommandHandlers;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 using Microsoft.Extensions.Options;
-using Rps.Api.Http.Shared.Options;
-using Rps.Api.Http.Domain.Contracts.Interfaces;
+
 using Rps.Api.Http.Domain.Contracts.Implementations;
+using Rps.Api.Http.Domain.Enums.v2;
+using Rps.Api.Http.Features.PlayMultiple.v2.Dtos;
+using Rps.Api.Http.Features.PlayMultiple.v2.Handlers.CommandHandlers;
+using Rps.Api.Http.Shared.Options;
+
+using Rps.Api.UnitTests.Fakes;
+
+using System.Threading;
+using System.Threading.Tasks;
+
+using Xunit;
 
 namespace Rps.Api.UnitTests.Features.PlayMultiple.v2;
 
@@ -43,20 +45,5 @@ public class PlayMultipleHandlerTests
         result.Data[1].PlayerMove.Should().Be("Water");
         result.Data[1].ComputerMove.Should().Be("Earth");
         result.Data[1].Outcome.Should().Be("Loser");
-    }
-}
-
-public class StubComputerMoveSelector : IComputerMoveSelector
-{
-    public Move NextMove { get; set; } = Move.Fire;
-    public Queue<Move> MoveSequence { get; } = new();
-
-    public ValueTask<Move> SelectMoveAsync()
-    {
-        if (MoveSequence.Count > 0)
-        {
-            return ValueTask.FromResult(MoveSequence.Dequeue());
-        }
-        return ValueTask.FromResult(NextMove);
     }
 }
