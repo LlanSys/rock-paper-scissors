@@ -13,7 +13,10 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Options Setup
-        services.Configure<GameOptions>(configuration.GetSection(GameOptions.SectionName));
+        services.AddOptions<GameOptions>()
+            .Bind(configuration.GetSection(GameOptions.SectionName))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
         services.Configure<MediatROptions>(configuration.GetSection(MediatROptions.SectionName));
 
         var mediatrOptions = configuration.GetSection(MediatROptions.SectionName).Get<MediatROptions>();
@@ -30,8 +33,12 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         // Domain Services
-        services.AddScoped<IGameEngine, GameEngine>();
-        services.AddScoped<IComputerMoveSelector, ComputerMoveSelector>();
+        services.AddSingleton<IGameEngine, GameEngine>();
+        services.AddSingleton<IComputerMoveSelector, ComputerMoveSelector>();
+
+        // Global exception handling
+        services.AddExceptionHandler<Middleware.GlobalExceptionHandler>();
+        services.AddProblemDetails();
 
         return services;
     }

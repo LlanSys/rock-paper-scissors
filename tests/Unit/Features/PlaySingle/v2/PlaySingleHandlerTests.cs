@@ -1,16 +1,19 @@
 using FluentAssertions;
-using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Features.PlaySingle.v2.Dtos;
-using Rps.Api.Http.Features.PlaySingle.v2.Hanlders.CommandHandlers;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 using Microsoft.Extensions.Options;
-using Rps.Api.Http.Shared.Options;
-using Rps.Api.Http.Domain.Contracts.Interfaces;
+
 using Rps.Api.Http.Domain.Contracts.Implementations;
+using Rps.Api.Http.Domain.Enums.v2;
+using Rps.Api.Http.Features.PlaySingle.v2.Dtos;
+using Rps.Api.Http.Features.PlaySingle.v2.Handlers.CommandHandlers;
+using Rps.Api.Http.Shared.Options;
+
+using Rps.Api.UnitTests.Fakes;
+
+using System.Threading;
+using System.Threading.Tasks;
+
+using Xunit;
 
 namespace Rps.Api.UnitTests.Features.PlaySingle.v2;
 
@@ -37,20 +40,5 @@ public class PlaySingleHandlerTests
         result.Data.ComputerMove.Should().Be("Wood");
         result.Data.Outcome.Should().Be("Winner");
         result.Data.Message.Should().Contain("Winner!");
-    }
-}
-
-public class StubComputerMoveSelector : IComputerMoveSelector
-{
-    public Move NextMove { get; set; } = Move.Fire;
-    public Queue<Move> MoveSequence { get; } = new();
-
-    public ValueTask<Move> SelectMoveAsync()
-    {
-        if (MoveSequence.Count > 0)
-        {
-            return ValueTask.FromResult(MoveSequence.Dequeue());
-        }
-        return ValueTask.FromResult(NextMove);
     }
 }

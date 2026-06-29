@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Rps.Api.Http.Shared.Dtos;
 
+/// <summary>
+/// Envelope for all API responses. Construct via the static <see cref="AppResponse"/> factory methods.
+/// The parameterless constructor is intentionally removed to prevent invalid state (IsSuccess=false, Error=null).
+/// </summary>
 public record AppResponse<T>
 {
     public bool IsSuccess { get; init; }
@@ -13,25 +16,23 @@ public record AppResponse<T>
     public string? SessionId { get; init; }
     public T? Data { get; init; }
 
-    // Failures are converted to ProblemDetails by BaseController.
+    // Failures are converted to ProblemDetails by GlobalExceptionHandler / BaseController.
     [JsonIgnore]
     public AppError? Error { get; }
 
-    public AppResponse() { }
-
-    public AppResponse(T? data) 
-    { 
-        IsSuccess = true;
-        Data = data;
-        Message = "Operation Successful";
-    }
-
     [JsonConstructor]
-    internal AppResponse(bool isSuccess, string? message, T? data)
+    private AppResponse(bool isSuccess, string? message, T? data)
     {
         IsSuccess = isSuccess;
         Message = message ?? "Operation Successful";
         Data = data;
+    }
+
+    internal AppResponse(T? data, string message = "Operation Successful")
+    {
+        IsSuccess = true;
+        Data = data;
+        Message = message;
     }
 
     internal AppResponse(AppError error)
@@ -41,28 +42,18 @@ public record AppResponse<T>
         IsSuccess = false;
         Error = error;
     }
-
-    public AppResponse(T? data, string message)
-    {
-        IsSuccess = true;
-        Data = data;
-        Message = message;
-    }
 }
 
 public static class AppResponse
 {
     public static AppResponse<T> Success<T>(T? data) =>
         new(data);
-   
+
     public static AppResponse<T> Success<T>(string message, T? data) =>
         new(data, message);
 
     public static AppResponse<T> Failure<T>(AppError error) =>
         new(error);
-
-    public static AppResponse<T> Failure<T>(string message, T? data = default) 
-        => new(false, message, data);
 
     public static AppResponse<T> ValidationFailure<T>(
         IReadOnlyDictionary<string, List<string>> validationErrors)
@@ -77,11 +68,6 @@ public static class AppResponse
                 .ToArray());
 
         return Failure<T>(AppError.Validation(normalizedErrors));
-    }
-
-    public static AppResponse<T> ValidationFailure<T>(Dictionary<string, List<string>> validationErrors)
-    {
-        return ValidationFailure<T>((IReadOnlyDictionary<string, List<string>>)validationErrors);
     }
 }
 

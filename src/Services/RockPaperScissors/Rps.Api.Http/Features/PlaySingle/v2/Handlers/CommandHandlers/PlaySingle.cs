@@ -10,7 +10,7 @@ using Rps.Api.Http.Shared.Mappings;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Rps.Api.Http.Features.PlaySingle.v2.Hanlders.CommandHandlers;
+namespace Rps.Api.Http.Features.PlaySingle.v2.Handlers.CommandHandlers;
 
 public sealed record PlaySingleCommand(PlayRequest PlayRequest) : IRequest<AppResponse<PlayResponse>>;
 

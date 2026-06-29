@@ -1,6 +1,6 @@
 using Rps.Api.Http.Domain.Enums.Common;
 using Rps.Api.Http.Domain.Enums.v2;
-using Rps.Api.Http.Shared.Dtos;
+using Rps.Api.Http.Domain.Models;
 
 using System.Threading.Tasks;
 

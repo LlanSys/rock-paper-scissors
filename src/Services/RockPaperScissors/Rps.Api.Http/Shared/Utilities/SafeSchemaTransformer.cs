@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.OpenApi;
+using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;
 
 using Serilog;
+
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Rps.Api.Http.Shared.Utilities;
 
@@ -13,10 +18,6 @@ internal sealed class SafeSchemaTransformer : IOpenApiSchemaTransformer
         {
             if (schema == null) return Task.CompletedTask;
 
-            // In OpenApi 3.0+, Properties is never null - it's pre-initialized
-            //schema.Properties ??= new Dictionary<string, OpenApiSchema>();
-
-            // Check if Properties exists before processing
             if (schema.Properties != null)
             {
                 var problematicKeys = schema.Properties
@@ -32,16 +33,10 @@ internal sealed class SafeSchemaTransformer : IOpenApiSchemaTransformer
 
             if (schema.AdditionalPropertiesAllowed && schema.AdditionalProperties != null)
             {
-                // In OpenApi 3.0+, Type is now JsonSchemaType enum, not string
                 if (schema.AdditionalProperties.Type == JsonSchemaType.Null || schema.AdditionalProperties.Type == default)
                 {
                     schema.AdditionalProperties = null;
                 }
-
-                //if (string.IsNullOrWhiteSpace(schema.AdditionalProperties.Type))
-                //{
-                //    schema.AdditionalProperties = null;
-                //}
             }
         }
         catch (Exception ex)
@@ -52,4 +47,3 @@ internal sealed class SafeSchemaTransformer : IOpenApiSchemaTransformer
         return Task.CompletedTask;
     }
 }
-
