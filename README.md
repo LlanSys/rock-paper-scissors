@@ -27,7 +27,7 @@ Play a single round of the elemental Rock-Paper-Scissors game against the comput
 **`POST`** `/api/v2/game/playsingle`
 ```json
 {
-  "action": "metal"
+  "action": "rock"
 }
 ```
 
@@ -53,7 +53,7 @@ Play a single round of the classic Rock-Paper-Scissors game against the computer
 **`POST`** `/api/v1/game/playsingle`
 ```json
 {
-  "action": "rock"
+  "action": "paper"
 }
 ```
 
@@ -69,7 +69,7 @@ Play multiple rounds of classic Rock-Paper-Scissors at once.
 **`POST`** `/api/v1/game/playmultiple`
 ```json
 {
-  "actions": ["rock", "paper", "scissors"]
+  "actions": ["water", "rock"]
 }
 ```
 
