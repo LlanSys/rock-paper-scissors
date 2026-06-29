@@ -1,5 +1,7 @@
 using FluentValidation;
 using MediatR;
+
+using Rps.Api.Http.Shared.Contracts.Interfaces;
 using Rps.Api.Http.Shared.Dtos;
 using System;
 using System.Collections.Generic;
