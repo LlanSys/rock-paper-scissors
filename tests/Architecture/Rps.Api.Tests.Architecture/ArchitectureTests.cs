@@ -8,10 +8,6 @@ namespace Rps.Api.Tests.Architecture;
 
 public class ArchitectureTests
 {
-    // ──────────────────────────────────────────────────────────────────────────
-    // Existing rules
-    // ──────────────────────────────────────────────────────────────────────────
-
     [Fact]
     public void V1_Slices_Should_Not_Depend_On_V2_Slices()
     {
@@ -65,10 +61,6 @@ public class ArchitectureTests
 
         Assert.True(result.IsSuccessful, $"Domain.Contracts must not depend on Microsoft.AspNetCore.Mvc! Failing types: {string.Join(", ", result.FailingTypeNames ?? [])}");
     }
-
-    // ──────────────────────────────────────────────────────────────────────────
-    // New rules added during code review
-    // ──────────────────────────────────────────────────────────────────────────
 
     [Fact]
     public void V2_CommandHandlers_Should_Not_Be_Public()

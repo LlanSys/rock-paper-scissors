@@ -12,7 +12,6 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // Options Setup
         services.AddOptions<GameOptions>()
             .Bind(configuration.GetSection(GameOptions.SectionName))
             .ValidateDataAnnotations()
@@ -21,7 +20,6 @@ public static class DependencyInjection
 
         var mediatrOptions = configuration.GetSection(MediatROptions.SectionName).Get<MediatROptions>();
 
-        // MediatR Setup
         services.AddMediatR(cfg =>
         {
             cfg.LicenseKey = mediatrOptions?.LicenseKey;
@@ -29,14 +27,11 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(Middleware.ValidationBehavior<,>));
         });
 
-        // FluentValidation Setup
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        // Domain Services
         services.AddSingleton<IGameEngine, GameEngine>();
         services.AddSingleton<IComputerMoveSelector, ComputerMoveSelector>();
 
-        // Global exception handling
         services.AddExceptionHandler<Middleware.GlobalExceptionHandler>();
         services.AddProblemDetails();
 
