@@ -18,62 +18,62 @@ public class GameController : ControllerBase
     [Route("playmultiple")]
     public string[] PlayMultiple([FromBody] MultiplePlayRequest request)
     {
-        List<string> results = [];
-        
-        if (request?.Actions != null)
+        if (request?.Actions == null || request.Actions.Length == 0)
         {
-            foreach (string rawPlayer in request.Actions)
+            return [];
+        }
+
+        // Pre-size the list capacity to prevent internal array reallocations as items are added
+        List<string> results = new(request.Actions.Length);
+
+        foreach (string? rawPlayer in request.Actions)
+        {
+            if (string.IsNullOrEmpty(rawPlayer))
             {
-                // This creates a brand-new string object in memory every time someone calls the API.
-                // ToDo: Use string.Equals() with StringComparison.OrdinalIgnoreCase instead of ToLowerInvariant() for better performance and culture-invariant comparison.
-                string playerAction = rawPlayer?.ToLowerInvariant() ?? string.Empty;
-
-
-                // ToDo: Under the hood, the LINQ .Contains() method creates an enumerator object on the heap for arrays. 
-                // Use Array.Exists() or an explicit loop
-                if (!_actions.Contains(playerAction))
-                {
-                    results.Add("You have to play rock, paper or scissors");
-                    continue;
-                }
-
-                //ToDo: REMOVE - Generates a new random move for each item in the array.
-                //string computerAction = Random.Shared.GetItems(_actions, 1)[0];
-
-                // zero - allocation implementation
-                string computerAction = _actions[Random.Shared.Next(_actions.Length)];
-
-                if (computerAction == playerAction)
-                {
-                    results.Add("I play " + computerAction + ". It's a draw!");
-                }
-                else if (computerAction == "rock" && playerAction == "paper")
-                {
-                    results.Add("I play " + computerAction + ". Winner!");
-                }
-                else if (computerAction == "rock" && playerAction == "scissors")
-                {
-                    results.Add("I play " + computerAction + ". Loser!");
-                }
-                else if (computerAction == "paper" && playerAction == "scissors")
-                {
-                    results.Add("I play " + computerAction + ". Winner!");
-                }
-                else if (computerAction == "paper" && playerAction == "rock")
-                {
-                    results.Add("I play " + computerAction + ". Loser!");
-                }
-                else if (computerAction == "scissors" && playerAction == "paper")
-                {
-                    results.Add("I play " + computerAction + ". Loser!");
-                }
-                else if (computerAction == "scissors" && playerAction == "rock")
-                {
-                    results.Add("I play " + computerAction + ". Winner!");
-                }
+                results.Add("You have to play rock, paper or scissors");
+                continue;
             }
+
+            // Case-insensitive verification without allocating new strings or LINQ enumerators
+            string? matchedAction = FindValidAction(rawPlayer);
+
+            if (matchedAction == null)
+            {
+                results.Add("You have to play rock, paper or scissors");
+                continue;
+            }
+
+            // Zero-allocation random single selection
+            string computerAction = _actions[Random.Shared.Next(_actions.Length)];
+
+            // Evaluation logic using the strictly matched internal static strings
+            if (computerAction == matchedAction)
+            {
+                results.Add($"I play {computerAction}. It's a draw!");
+                continue;
+            }
+
+            bool playerWins = (computerAction == "rock" && matchedAction == "paper") ||
+                              (computerAction == "paper" && matchedAction == "scissors") ||
+                              (computerAction == "scissors" && matchedAction == "rock");
+
+            results.Add(playerWins
+                ? $"I play {computerAction}. Winner!"
+                : $"I play {computerAction}. Loser!");
         }
 
         return [.. results];
+    }
+
+    private static string? FindValidAction(string input)
+    {
+        foreach (var action in _actions)
+        {
+            if (string.Equals(action, input, StringComparison.OrdinalIgnoreCase))
+            {
+                return action; // Returns reference to our static string instance
+            }
+        }
+        return null;
     }
 }

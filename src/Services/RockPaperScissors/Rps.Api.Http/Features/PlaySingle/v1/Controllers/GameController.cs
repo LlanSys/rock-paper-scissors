@@ -22,9 +22,6 @@ public class GameController : ControllerBase
     [Route("playsingle")]
     public string PlaySingle([FromBody] PlayRequest request)
     {
-        // ToDo: REMOVE - This creates a brand-new string object in memory every time someone calls the API.
-        //string playerAction = request.Action?.ToLowerInvariant() ?? string.Empty;
-        
         string playerAction = request.Action ?? string.Empty;
 
         if (string.IsNullOrEmpty(playerAction) || !IsValidAction(playerAction))
@@ -32,13 +29,9 @@ public class GameController : ControllerBase
             return "You have to play rock, paper or scissors";
         }
 
-        //ToDo: REMOVE - This allocates a new array of size 1 on every request.
-        //string computerAction = Random.Shared.GetItems(_actions, 1)[0];
-
         // Zero-allocation random selection
         string computerAction = _actions[Random.Shared.Next(_actions.Length)];
 
-        // Zero-allocation result generation using exact string matches
         if (string.Equals(computerAction, playerAction, StringComparison.OrdinalIgnoreCase))
         {
             return $"I play {computerAction}. It's a draw!";
