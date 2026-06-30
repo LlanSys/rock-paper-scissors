@@ -1,9 +1,13 @@
 using Asp.Versioning;
+
 using Microsoft.AspNetCore.Mvc;
+
 using Rps.Api.Http.Features.PlaySingle.v1.Dtos;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 
 namespace Rps.Api.Http.Features.PlaySingle.v1.Controllers;
 
@@ -18,45 +22,44 @@ public class GameController : ControllerBase
     [Route("playsingle")]
     public string PlaySingle([FromBody] PlayRequest request)
     {
-        string playerAction = request.Action?.ToLowerInvariant() ?? string.Empty;
+        // ToDo: REMOVE - This creates a brand-new string object in memory every time someone calls the API.
+        //string playerAction = request.Action?.ToLowerInvariant() ?? string.Empty;
+        
+        string playerAction = request.Action ?? string.Empty;
 
-        if (!_actions.Contains(playerAction))
+        if (string.IsNullOrEmpty(playerAction) || !IsValidAction(playerAction))
         {
             return "You have to play rock, paper or scissors";
         }
 
-        string computerAction = Random.Shared.GetItems(_actions, 1)[0];
+        //ToDo: REMOVE - This allocates a new array of size 1 on every request.
+        //string computerAction = Random.Shared.GetItems(_actions, 1)[0];
 
-        if (computerAction == playerAction)
-        {
-            return "I play " + computerAction + ". It's a draw!";
-        }
+        // Zero-allocation random selection
+        string computerAction = _actions[Random.Shared.Next(_actions.Length)];
 
-        if (computerAction == "rock" && playerAction == "paper")
+        // Zero-allocation result generation using exact string matches
+        if (string.Equals(computerAction, playerAction, StringComparison.OrdinalIgnoreCase))
         {
-            return "I play " + computerAction + ". Winner!";
-        }
-        else if (computerAction == "rock" && playerAction == "scissors")
-        {
-            return "I play " + computerAction + ". Loser!";
-        }
-        else if (computerAction == "paper" && playerAction == "scissors")
-        {
-            return "I play " + computerAction + ". Winner!";
-        }
-        else if (computerAction == "paper" && playerAction == "rock")
-        {
-            return "I play " + computerAction + ". Loser!";
-        }
-        else if (computerAction == "scissors" && playerAction == "paper")
-        {
-            return "I play " + computerAction + ". Loser!";
-        }
-        else if (computerAction == "scissors" && playerAction == "rock")
-        {
-            return "I play " + computerAction + ". Winner!";
+            return $"I play {computerAction}. It's a draw!";
         }
 
-        return "You have to play rock, paper or scissors";
+        bool playerWins = (computerAction == "rock" && playerAction.Equals("paper", StringComparison.OrdinalIgnoreCase)) ||
+                          (computerAction == "paper" && playerAction.Equals("scissors", StringComparison.OrdinalIgnoreCase)) ||
+                          (computerAction == "scissors" && playerAction.Equals("rock", StringComparison.OrdinalIgnoreCase));
+
+        return playerWins
+            ? $"I play {computerAction}. Winner!"
+            : $"I play {computerAction}. Loser!";
+
+    }
+
+    private static bool IsValidAction(string action)
+    {
+        foreach (var item in _actions)
+        {
+            if (string.Equals(item, action, StringComparison.OrdinalIgnoreCase)) return true;
+        }
+        return false;
     }
 }

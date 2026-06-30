@@ -24,17 +24,23 @@ public class GameController : ControllerBase
         {
             foreach (string rawPlayer in request.Actions)
             {
+                // This creates a brand-new string object in memory every time someone calls the API.
+                // ToDo: Use string.Equals() with StringComparison.OrdinalIgnoreCase instead of ToLowerInvariant() for better performance and culture-invariant comparison.
                 string playerAction = rawPlayer?.ToLowerInvariant() ?? string.Empty;
 
+
+                // ToDo: Under the hood, the LINQ .Contains() method creates an enumerator object on the heap for arrays. 
+                // Use Array.Exists() or an explicit loop
                 if (!_actions.Contains(playerAction))
                 {
                     results.Add("You have to play rock, paper or scissors");
                     continue;
                 }
 
-                // Generates a new random move for each item in the array, as requested (zero-allocation implementation).
+                //ToDo: REMOVE - Generates a new random move for each item in the array.
                 //string computerAction = Random.Shared.GetItems(_actions, 1)[0];
 
+                // zero - allocation implementation
                 string computerAction = _actions[Random.Shared.Next(_actions.Length)];
 
                 if (computerAction == playerAction)
