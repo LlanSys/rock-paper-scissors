@@ -22,7 +22,7 @@ The API provides interactive API documentation using Scalar.
 ![Scalar Home](docs/images/scalar-home.png)
 
 ### 1. Play Single (`v2`)
-Play a single round of the elemental Rock-Paper-Scissors game against the computer.
+Play a single round of the elemental variant Fire-Water-Wood-Metal-Earth game against the computer.
 
 **`POST`** `/api/v2/game/playsingle`
 ```json
