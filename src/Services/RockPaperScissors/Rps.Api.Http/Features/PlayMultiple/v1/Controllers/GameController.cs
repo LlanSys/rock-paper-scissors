@@ -24,13 +24,14 @@ public class GameController : ControllerBase
         }
 
         // Pre-size the list capacity to prevent internal array reallocations as items are added
-        List<string> results = new(request.Actions.Length);
+        string[] results = new string[request.Actions.Length];
 
-        foreach (string? rawPlayer in request.Actions)
+        for (int i = 0; i < request.Actions.Length; i++)
         {
+            string? rawPlayer = request.Actions[i];
             if (string.IsNullOrEmpty(rawPlayer))
             {
-                results.Add("You have to play rock, paper or scissors");
+                results[i] = "You have to play rock, paper or scissors";
                 continue;
             }
 
@@ -39,7 +40,7 @@ public class GameController : ControllerBase
 
             if (matchedAction == null)
             {
-                results.Add("You have to play rock, paper or scissors");
+                results[i] = "You have to play rock, paper or scissors";
                 continue;
             }
 
@@ -49,7 +50,7 @@ public class GameController : ControllerBase
             // Evaluation logic using the strictly matched internal static strings
             if (computerAction == matchedAction)
             {
-                results.Add($"I play {computerAction}. It's a draw!");
+                results[i] = $"I play {computerAction}. It's a draw!";
                 continue;
             }
 
@@ -57,12 +58,12 @@ public class GameController : ControllerBase
                               (computerAction == "paper" && matchedAction == "scissors") ||
                               (computerAction == "scissors" && matchedAction == "rock");
 
-            results.Add(playerWins
+            results[i] = playerWins
                 ? $"I play {computerAction}. Winner!"
-                : $"I play {computerAction}. Loser!");
+                : $"I play {computerAction}. Loser!";
         }
 
-        return [.. results];
+        return results;
     }
 
     private static string? FindValidAction(string input)
