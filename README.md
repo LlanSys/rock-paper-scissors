@@ -79,14 +79,14 @@ Play multiple rounds of classic Rock-Paper-Scissors at once.
 ## Getting Started
 
 ### 1. Preparing the Environment
-This project uses **MediatR** configured with a required license key parameter. Before running the application, you must set the `MediatR:LicenseKey` to `Community` using .NET User Secrets to keep the key out of source control.
+This project uses **MediatR** configured with a required license key parameter. Before running the application, you must set the `MediatR:LicenseKey` to `Your Community License Key` using .NET User Secrets to keep the key out of source control.
 
 **Using the Terminal:**
 Navigate to the API project directory and initialize the secrets:
 ```bash
 cd src/Services/RockPaperScissors/Rps.Api.Http
 dotnet user-secrets init
-dotnet user-secrets set "MediatR:LicenseKey" "Community"
+dotnet user-secrets set "MediatR:LicenseKey" "Your Community License Key"
 ```
 
 **Using Visual Studio:**
