@@ -96,7 +96,7 @@ dotnet user-secrets set "MediatR:LicenseKey" "Your Community License Key"
    ```json
    {
      "MediatR": {
-       "LicenseKey": "Community"
+       "LicenseKey": "Set via MediatR__LicenseKey environment variable or user-secrets"
      }
    }
    ```
