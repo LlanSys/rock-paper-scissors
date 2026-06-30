@@ -23,7 +23,6 @@ public class GameController : ControllerBase
             return [];
         }
 
-        // Pre-size the list capacity to prevent internal array reallocations as items are added
         string[] results = new string[request.Actions.Length];
 
         for (int i = 0; i < request.Actions.Length; i++)
